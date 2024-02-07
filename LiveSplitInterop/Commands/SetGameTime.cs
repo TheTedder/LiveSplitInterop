@@ -11,12 +11,6 @@ namespace LiveSplitInterop.Commands
     {
         private readonly TimeSpan gameTime;
 
-        /// <summary>
-        /// Constructs a new <see cref="SetGameTime"/>.
-        /// </summary>
-        /// <param name="gameTime">
-        /// The amount of time that has elapsed since the run started, not including loading times.
-        /// </param>
         public SetGameTime(TimeSpan gameTime)
         {
             this.gameTime = gameTime;
@@ -30,6 +24,12 @@ namespace LiveSplitInterop.Commands
         /// <summary>
         /// Set the game time.
         /// </summary>
+        /// <param name="client">
+        /// The client.
+        /// </param>
+        /// <param name="gameTime">
+        /// The amount of time that has elapsed since the run started, not including loading times.
+        /// </param>
         public static void SetGameTime(this ILiveSplitCommandClient client, TimeSpan gameTime)
         {
             client.SendCommand(new SetGameTime(gameTime));
@@ -38,6 +38,12 @@ namespace LiveSplitInterop.Commands
         /// <summary>
         /// Set the game time asynchronously.
         /// </summary>
+        /// <param name="client">
+        /// The client.
+        /// </param>
+        /// <param name="gameTime">
+        /// The amount of time that has elapsed since the run started, not including loading times.
+        /// </param>
         public static async Task SetGameTimeAsync(this IAsyncLiveSplitCommandClient client, TimeSpan gameTime)
         {
             await client.SendCommandAsync(new SetGameTime(gameTime));
