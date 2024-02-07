@@ -9,7 +9,7 @@ namespace LiveSplitInterop
     public abstract class Command
     {
         /// <summary>
-        /// The underlying message send to LiveSplit.
+        /// The underlying message to send to LiveSplit.
         /// </summary>
         public abstract string Message { get; }
     }
