@@ -30,8 +30,6 @@ namespace LiveSplitInterop.Commands
         /// <see cref="PauseGameTimeExtensions.PauseGameTimeAsync(IAsyncLiveSplitCommandClient)"/>
         /// instead.
         /// </summary>
-        /// <param name="client"></param>
-        /// <returns></returns>
         public static async Task PauseAsync(this IAsyncLiveSplitCommandClient client)
         {
             await client.SendCommandAsync(new Pause());
