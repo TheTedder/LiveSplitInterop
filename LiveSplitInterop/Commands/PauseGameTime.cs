@@ -8,7 +8,7 @@ namespace LiveSplitInterop.Commands
     /// <summary>
     /// A command that pauses game time.
     /// </summary>
-    public class PauseGameTime : Command
+    public sealed class PauseGameTime : Command
     {
         public override string Message => "pausegametime";
     }

@@ -8,7 +8,7 @@ namespace LiveSplitInterop.Commands
     /// <summary>
     /// A command that stops game time from automatically advancing.
     /// </summary>
-    public class AlwaysPauseGameTime : Command
+    public sealed class AlwaysPauseGameTime : Command
     {
         public override string Message => "alwayspausegametime";
     }
