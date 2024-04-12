@@ -10,7 +10,7 @@ namespace LiveSplitInterop.Commands
     /// </summary>
     public sealed class UndoSplit : Command
     {
-        public override string Message => "undosplit";
+        public override string Message => "unsplit";
     }
 
     public static class UndoSplitExtensions
