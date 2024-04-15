@@ -137,7 +137,6 @@ namespace LiveSplitInterop.Clients
         public async Task SendCommandAsync(Command command)
         {
             string msg = command.Message;
-            Debug.WriteLine(msg);
             await Writer.WriteLineAsync(msg);
             await Writer.FlushAsync();
         }
@@ -146,8 +145,22 @@ namespace LiveSplitInterop.Clients
         public async Task<T> SendCommandAsync<T>(Command<T> command)
         {
             await SendCommandAsync((Command)command);
-            T response = command.ParseResponse(await Reader.ReadLineAsync());
-            return response;
+            string response = await Reader.ReadLineAsync();
+            Debug.WriteLine(response);
+            return command.ParseResponse(response);
         }
+
+#if DEBUG
+        public async Task SendCommandRaw(string str)
+        {
+            await Writer.WriteLineAsync(str);
+            await Writer.FlushAsync();
+        }
+
+        public async Task<string> ConsumeLineAsync()
+        {
+            return await Reader.ReadLineAsync();
+        }
+#endif
     }
 }
