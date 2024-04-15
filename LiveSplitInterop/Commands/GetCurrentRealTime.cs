@@ -12,7 +12,7 @@ namespace LiveSplitInterop.Commands
     {
         public override string Message => "getcurrentrealtime";
 
-        public override TimeSpan ParseResponse(string response) => Util.ParseLiveSplitTimeSpan(response);
+        public override TimeSpan ParseResponse(string response) => Util.ParseLsTimeSpan(response);
     }
 
     public static class GetCurrentRealTimeExtensions
