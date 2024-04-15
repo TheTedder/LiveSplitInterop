@@ -15,7 +15,7 @@ namespace LiveSplitInterop.Commands
 
         public override TimeSpan? ParseResponse(string response)
         {
-            return Util.ParseLiveSplitTimeSpanNullable(response);
+            return Util.ParseLsTimeSpanNullable(response);
         }
     }
 
