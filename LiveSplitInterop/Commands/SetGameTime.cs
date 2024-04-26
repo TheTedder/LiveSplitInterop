@@ -16,7 +16,7 @@ namespace LiveSplitInterop.Commands
             this.gameTime = gameTime;
         }
 
-        public override string Message => gameTime.ToLsString();
+        public override string Message => $"setgametime {gameTime.ToLsString()}";
     }
 
     public static class SetGameTimeExtensions
