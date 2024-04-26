@@ -12,6 +12,7 @@ Console.WriteLine(
 [Enter]  Start or split
 [I]      Print current split index
 [SG]     Set game time
+[SL]     Set loading times
 [GR]     Get current real time
 [U]      Undo split
 [D]      Get delta
@@ -52,15 +53,25 @@ while (!quit)
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.G:
-                        Console.Write("Set game time to (Enter a time): ");
-                        string? line = Console.ReadLine();
-
-                        if (line != null)
                         {
-                            await client.SetGameTimeAsync(TimeSpan.Parse(line));
+                            Console.Write("Set game time to (Enter a time): ");
+                            string? line = Console.ReadLine();
+
+                            if (line is not null)
+                            {
+                                await client.SetGameTimeAsync(TimeSpan.Parse(line));
+                            }
+
+                            break;
                         }
 
-                        break;
+                    case ConsoleKey.L:
+                        {
+                            Console.Write("Set loading times to (Enter a time or leave blank to reset):");
+                            string? line = Console.ReadLine();
+                            await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
+                            break;
+                        }
                 }
 
                 break;
