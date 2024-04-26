@@ -44,8 +44,7 @@ namespace LiveSplitInterop
         /// <inheritdoc/>
         public void SendCommand(Command command)
         {
-            string msg = command.Message;
-            Writer.WriteLine(msg);
+            Writer.WriteLine(command.Message);
             Writer.Flush();
         }
 
@@ -53,16 +52,13 @@ namespace LiveSplitInterop
         public T SendCommand<T>(Command<T> command)
         {
             SendCommand((Command)command);
-            string response = Reader.ReadLine();
-            Debug.WriteLine(response);
-            return command.ParseResponse(response);
+            return command.ParseResponse(Reader.ReadLine());
         }
 
         /// <inheritdoc/>
         public async Task SendCommandAsync(Command command)
         {
-            string msg = command.Message;
-            await Writer.WriteLineAsync(msg);
+            await Writer.WriteLineAsync(command.Message);
             await Writer.FlushAsync();
         }
 
@@ -71,7 +67,6 @@ namespace LiveSplitInterop
         {
             await SendCommandAsync((Command)command);
             string response = await Reader.ReadLineAsync();
-            Debug.WriteLine(response);
             return command.ParseResponse(response);
         }
 
