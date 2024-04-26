@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using System.IO.Pipes;
 using System.Text;
 using System.Threading;
@@ -21,24 +19,13 @@ namespace LiveSplitInterop.Clients
     /// This client can be used over LAN but it is not very efficient. It is recommended to use TCP/IP instead.
     /// </para>
     /// </remarks>
-    public class NamedPipeCommandClient : IDisposable, ILiveSplitCommandClient, IAsyncLiveSplitCommandClient
+    public class NamedPipeCommandClient : BaseClient
     {
+        protected readonly string ServerName;
         /// <summary>
         /// The underlying NamedPipeClientStream.
         /// </summary>
-        protected readonly NamedPipeClientStream NamedPipeClient;
-
-        /// <summary>
-        /// The <see cref="StreamReader"/> used to read data from the <see cref="NamedPipeClient"/>.
-        /// This value may be null if the client is not currently connected to a LiveSplit instance.
-        /// </summary>
-        protected StreamReader Reader;
-
-        /// <summary>
-        /// The <see cref="StreamWriter"/> used to write data to the <see cref="NamedPipeClient"/>.
-        /// This value may be null if the client is not currently connected to a LiveSplit instance.
-        /// </summary>
-        protected StreamWriter Writer;
+        //protected readonly NamedPipeClientStream NamedPipeClient;
 
         /// <summary>
         /// Creates a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
@@ -51,28 +38,22 @@ namespace LiveSplitInterop.Clients
         /// </param>
         public NamedPipeCommandClient(string serverName = ".")
         {
-            NamedPipeClient = new NamedPipeClientStream(
-                serverName,
-                "LiveSplit",
-                PipeDirection.InOut,
-                // TODO: Is PipeOptions.WriteThrough necessary? Better to have it on or off? 
-                PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+            ServerName = serverName;
         }
 
-        /// <summary>
-        /// Setup the client for reading and writing from the <see cref="NamedPipeClient"/>.
-        /// This method can also be used to re-initialize the <see cref="Reader"/> and the <see cref="Writer"/>.
-        /// </summary>
-        protected void Setup()
+        protected NamedPipeClientStream CreateStream() => new NamedPipeClientStream(
+            ServerName,
+            "LiveSplit",
+            PipeDirection.InOut,
+            // TODO: Is PipeOptions.WriteThrough necessary? Better to have it on or off? 
+            PipeOptions.Asynchronous | PipeOptions.WriteThrough);
+
+        protected void SetupPipeStream(NamedPipeClientStream stream)
         {
-            NamedPipeClient.ReadMode = PipeTransmissionMode.Byte;
-            Reader?.Dispose();
-            Writer?.Dispose();
-            Reader = new StreamReader(NamedPipeClient, Encoding.UTF8, false, 1024, true);
-            Writer = new StreamWriter(NamedPipeClient, Encoding.UTF8, 1024, true)
-            {
-                NewLine = "\n"
-            };
+            // It is an error to set this variable before the pipe is connected.
+
+            stream.ReadMode = PipeTransmissionMode.Byte;
+            Setup(stream);
         }
 
         /// <summary>
@@ -80,8 +61,9 @@ namespace LiveSplitInterop.Clients
         /// </summary>
         public void Connect(int timeout = Timeout.Infinite)
         {
-            NamedPipeClient.Connect(timeout);
-            Setup();
+            var client = CreateStream();
+            client.Connect(timeout);
+            SetupPipeStream(client);
         }
 
         /// <summary>
@@ -89,8 +71,9 @@ namespace LiveSplitInterop.Clients
         /// </summary>
         public async Task ConnectAsync(int timeout = Timeout.Infinite)
         {
-            await NamedPipeClient.ConnectAsync(timeout);
-            Setup();
+            var client = CreateStream();
+            await client.ConnectAsync(timeout);
+            SetupPipeStream(client);
         }
 
         /// <inheritdoc cref="ConnectAsync(int)"/>
@@ -99,68 +82,14 @@ namespace LiveSplitInterop.Clients
             int timeout = Timeout.Infinite
             )
         {
-            await NamedPipeClient.ConnectAsync(timeout, cancellationToken);
-            Setup();
-        }
-
-        /// <inheritdoc/>
-        public void Dispose()
-        {
-            Reader?.Dispose();
-            Writer?.Dispose();
-            NamedPipeClient?.Dispose();
+            var client = CreateStream();
+            await client.ConnectAsync(timeout, cancellationToken);
+            SetupPipeStream(client);
         }
 
         /// <summary>
         /// A value indicating whether a client is connected to LiveSplit.
         /// </summary>
-        public bool IsConnected => NamedPipeClient.IsConnected;
-
-        /// <inheritdoc/>
-        public void SendCommand(Command command)
-        {
-            string msg = command.Message;
-            Writer.WriteLine(msg);
-            Writer.Flush();
-        }
-
-        /// <inheritdoc/>
-        public T SendCommand<T>(Command<T> command)
-        {
-            SendCommand((Command)command);
-            string response = Reader.ReadLine();
-            Debug.WriteLine(response);
-            return command.ParseResponse(response);
-        }
-
-        /// <inheritdoc/>
-        public async Task SendCommandAsync(Command command)
-        {
-            string msg = command.Message;
-            await Writer.WriteLineAsync(msg);
-            await Writer.FlushAsync();
-        }
-
-        /// <inheritdoc/>
-        public async Task<T> SendCommandAsync<T>(Command<T> command)
-        {
-            await SendCommandAsync((Command)command);
-            string response = await Reader.ReadLineAsync();
-            Debug.WriteLine(response);
-            return command.ParseResponse(response);
-        }
-
-#if DEBUG
-        public async Task SendCommandRaw(string str)
-        {
-            await Writer.WriteLineAsync(str);
-            await Writer.FlushAsync();
-        }
-
-        public async Task<string> ConsumeLineAsync()
-        {
-            return await Reader.ReadLineAsync();
-        }
-#endif
+        public bool IsConnected => !(Stream is null) && ((NamedPipeClientStream)Stream).IsConnected;
     }
 }
