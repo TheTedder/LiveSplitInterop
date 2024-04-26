@@ -16,16 +16,16 @@ namespace LiveSplitInterop
 
         /// <summary>
         /// Sets up or reinitializes the <see cref="Reader"/> and <see cref="Writer"/>
-        /// for use with <paramref name="stream"/>
+        /// for use with <paramref name="stream"/>. This method should be called before
+        /// attempting to send any commands.
         /// </summary>
-        /// <param name="stream"></param>
-        protected virtual void Setup(Stream stream)
+        protected virtual void Setup(Stream stream, int bufferSize = 1024)
         {
             Reader?.Close();
             Writer?.Close();
             Stream?.Dispose();
-            Reader = new StreamReader(stream, Encoding.UTF8, false, 1024, true);
-            Writer = new StreamWriter(stream, new UTF8Encoding(false), 1024, true)
+            Reader = new StreamReader(stream, Encoding.UTF8, false, bufferSize, true);
+            Writer = new StreamWriter(stream, new UTF8Encoding(false), bufferSize, true)
             {
                 NewLine = "\n"
             };
