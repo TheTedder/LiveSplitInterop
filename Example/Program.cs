@@ -13,6 +13,7 @@ Console.WriteLine(
 [I]      Print current split index
 [SG]     Set game time
 [SL]     Set loading times
+[A]      Add loading times
 [GR]     Get current real time
 [U]      Undo split
 [D]      Get delta
@@ -72,6 +73,19 @@ while (!quit)
                             await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
                             break;
                         }
+                }
+
+                break;
+            }
+
+        case ConsoleKey.A:
+            {
+                Console.Write("Add to loading times:");
+                string? line = Console.ReadLine();
+
+                if (line is not null)
+                {
+                    await client.AddLoadingTimesAsync(TimeSpan.Parse(line));
                 }
 
                 break;
