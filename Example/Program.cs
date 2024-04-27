@@ -15,6 +15,7 @@ Console.WriteLine(
 [SL]     Set loading times
 [A]      Add loading times
 [GR]     Get current real time
+[GNL]    Get last split name
 [U]      Undo split
 [D]      Get delta
 [N]      Get current split name
@@ -66,11 +67,19 @@ while (!quit)
                             break;
                         }
 
-                    case ConsoleKey.L:
+                    case ConsoleKey.N:
                         {
-                            Console.Write("Set loading times to (Enter a time or leave blank to reset):");
-                            string? line = Console.ReadLine();
-                            await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
+                            switch (Console.ReadKey(true).Key)
+                            {
+                                case ConsoleKey.L:
+                                    {
+                                        Console.Write("Set loading times to (Enter a time or leave blank to reset):");
+                                        string? line = Console.ReadLine();
+                                        await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
+                                        break;
+                                    }
+                            }
+                            
                             break;
                         }
                 }
@@ -96,8 +105,16 @@ while (!quit)
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.R:
-                        Console.WriteLine("Current time: {0:c}", await client.GetCurrentRealTimeAsync());
-                        break;
+                        {
+                            Console.WriteLine("Current time: {0:c}", await client.GetCurrentRealTimeAsync());
+                            break;
+                        }
+
+                    case ConsoleKey.L:
+                        {
+                            Console.WriteLine("Previous split name: {0}", await client.GetLastSplitNameAsync());
+                            break;
+                        }
                 }
 
                 break;
