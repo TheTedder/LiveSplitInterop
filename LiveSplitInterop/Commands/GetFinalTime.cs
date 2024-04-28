@@ -9,9 +9,6 @@ namespace LiveSplitInterop.Commands
     /// A command that returns the final time if the run is over or the time of the most recently completed split,
     /// optionally of a specific comparison.
     /// </summary>
-    /// <remarks>
-    /// Returns null if there are no completed splits.
-    /// </remarks>
     public sealed class GetFinalTime : Command<TimeSpan?>
     {
         private readonly string comparison;
@@ -38,9 +35,6 @@ namespace LiveSplitInterop.Commands
         /// Get the final time or the time of the most recently completed split, optionally of a specific comparison.
         /// Omit <paramref name="comparison"/> to use the current comparison.
         /// </summary>
-        /// <remarks>
-        /// Returns null if there are no completed splits.
-        /// </remarks>
         public static TimeSpan? GetFinalTime(this ILiveSplitCommandClient client, string comparison = null)
         {
             return client.SendCommand(new GetFinalTime(comparison));
@@ -50,7 +44,6 @@ namespace LiveSplitInterop.Commands
         /// Get the final time or the time of the most recently completed split asynchronously,
         /// optionally of a specific comparison.
         /// </summary>
-        /// <inheritdoc cref="GetFinalTime(ILiveSplitCommandClient, string)"/>
         public static async Task<TimeSpan?> GetFinalTimeAsync(
             this IAsyncLiveSplitCommandClient client,
             string comparison = null)
