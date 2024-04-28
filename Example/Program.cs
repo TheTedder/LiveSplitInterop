@@ -27,6 +27,8 @@ Console.WriteLine(
 [B]      Get best possible time
 [P]      Get predicted time
 [C]      Set comparison
+[SWG]    Switch to game time
+[SWR]    Switch to real time
 [Insert] Custom command");
 
 bool quit = false;
@@ -80,6 +82,26 @@ while (!quit)
                             Console.Write("Set loading times to (Enter a time or leave blank to reset):");
                             string? line = Console.ReadLine();
                             await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
+                            break;
+                        }
+
+                    case ConsoleKey.W:
+                        {
+                            switch (Console.ReadKey(true).Key)
+                            {
+                                case ConsoleKey.G:
+                                    {
+                                        await client.SwitchToGameTimeAsync();
+                                        break;
+                                    }
+
+                                case ConsoleKey.R:
+                                    {
+                                        await client.SwitchToRealTimeAsync();
+                                        break;
+                                    }
+                            }
+
                             break;
                         }
                 }
