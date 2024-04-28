@@ -21,6 +21,7 @@ Console.WriteLine(
 [U]      Undo split
 [D]      Get delta
 [N]      Get current split name
+[T]      Get current time
 [Insert] Custom command");
 
 bool quit = false;
@@ -168,7 +169,13 @@ while (!quit)
         case ConsoleKey.N:
             {
                 string splitname = await client.GetCurrentSplitNameAsync();
-                Console.WriteLine("Current Split: {0}", splitname);
+                Console.WriteLine("Current split: {0}", splitname);
+                break;
+            }
+
+        case ConsoleKey.T:
+            {
+                Console.WriteLine("Curren time: {0:c}", await client.GetCurrentTimeAsync());
                 break;
             }
 
