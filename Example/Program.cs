@@ -23,6 +23,7 @@ Console.WriteLine(
 [N]      Get current split name
 [T]      Get current time
 [F]      Get final time
+[B]      Get best possible time
 [Insert] Custom command");
 
 bool quit = false;
@@ -195,6 +196,12 @@ while (!quit)
                 break;
             }
 
+        case ConsoleKey.B:
+            {
+                TimeSpan? time = await client.GetBestPossibleTimeAsync();
+                Console.WriteLine("Best possible time: {0}", time?.ToString("c") ?? "-");
+                break;
+            }
 #if DEBUG
         case ConsoleKey.Insert:
             {
