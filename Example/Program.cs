@@ -18,6 +18,7 @@ Console.WriteLine(
 [GNL]    Get last split name
 [GTL]    Get last split 
 [GTC]    Get current split time
+[GP]     Get timer phase
 [U]      Undo split
 [D]      Get delta
 [N]      Get current split name
@@ -149,6 +150,12 @@ while (!quit)
                                     }
                             }
 
+                            break;
+                        }
+
+                    case ConsoleKey.P:
+                        {
+                            Console.WriteLine("Timer phase: {0}", await client.GetTimerPhaseAsync());
                             break;
                         }
                 }
