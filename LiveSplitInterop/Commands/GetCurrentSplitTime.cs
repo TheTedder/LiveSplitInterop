@@ -9,7 +9,7 @@ namespace LiveSplitInterop.Commands
     /// A command that gets the current split time, optionally of a specific comparison.
     /// </summary>
     /// <remarks>
-    /// Returns null is there is no current split.
+    /// Returns null if there is no current split.
     /// </remarks>
     public sealed class GetCurrentSplitTime : Command<TimeSpan?>
     {
@@ -37,7 +37,7 @@ namespace LiveSplitInterop.Commands
         /// Get the current split time. Omit <paramref name="comparison"/> to use the current comparison.
         /// </summary>
         /// <remarks>
-        /// Returns null is there is no current split.
+        /// Returns null if there is no current split.
         /// </remarks>
         public static TimeSpan? GetCurrentSplitTime(this ILiveSplitCommandClient client, string comparison = null)
         {
