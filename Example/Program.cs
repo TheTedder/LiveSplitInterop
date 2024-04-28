@@ -24,6 +24,7 @@ Console.WriteLine(
 [T]      Get current time
 [F]      Get final time
 [B]      Get best possible time
+[P]      Get predicted time
 [Insert] Custom command");
 
 bool quit = false;
@@ -202,6 +203,22 @@ while (!quit)
                 Console.WriteLine("Best possible time: {0}", time?.ToString("c") ?? "-");
                 break;
             }
+
+        case ConsoleKey.P:
+            {
+                Console.Write("Comparison (leave blank for current):");
+                string? comp = Console.ReadLine();
+
+                if (comp == "")
+                {
+                    comp = null;
+                }
+
+                TimeSpan? time = await client.GetPredictedTimeAsync(comp);
+                Console.WriteLine("Predicted time: {0}", time?.ToString("c") ?? "-");
+                break;
+            }
+
 #if DEBUG
         case ConsoleKey.Insert:
             {
