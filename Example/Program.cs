@@ -22,6 +22,7 @@ Console.WriteLine(
 [D]      Get delta
 [N]      Get current split name
 [T]      Get current time
+[F]      Get final time
 [Insert] Custom command");
 
 bool quit = false;
@@ -132,7 +133,7 @@ while (!quit)
 
                                 case ConsoleKey.C:
                                     {
-                                        Console.WriteLine("Comparison (leave blank for current:)");
+                                        Console.Write("Comparison (leave blank for current):");
                                         string? comp = Console.ReadLine();
 
                                         if (comp == "")
@@ -176,6 +177,21 @@ while (!quit)
         case ConsoleKey.T:
             {
                 Console.WriteLine("Curren time: {0:c}", await client.GetCurrentTimeAsync());
+                break;
+            }
+
+        case ConsoleKey.F:
+            {
+                Console.Write("Comparison (leave blank for current):");
+                string? comp = Console.ReadLine();
+
+                if (comp == "")
+                {
+                    comp = null;
+                }
+
+                TimeSpan? time = await client.GetFinalTimeAsync(comp);
+                Console.WriteLine("Final time: {0}", time?.ToString("c") ?? "-");
                 break;
             }
 
