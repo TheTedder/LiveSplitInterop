@@ -20,6 +20,7 @@ Console.WriteLine(
 [U]      Undo split
 [D]      Get delta
 [N]      Get current split name
+[T]      Get current split time
 [Insert] Custom command");
 
 bool quit = false;
@@ -153,6 +154,21 @@ while (!quit)
             {
                 string splitname = await client.GetCurrentSplitNameAsync();
                 Console.WriteLine("Current Split: {0}", splitname);
+                break;
+            }
+
+        case ConsoleKey.T:
+            {
+                Console.WriteLine("Comparison (leave blank for current:)");
+                string? comp = Console.ReadLine();
+
+                if (comp == "")
+                {
+                    comp = null;
+                }
+                
+                TimeSpan? time = await client.GetCurrentSplitTimeAsync(comp);
+                Console.WriteLine("Previous split time: {0}", time?.ToString("c") ?? "-");
                 break;
             }
 
