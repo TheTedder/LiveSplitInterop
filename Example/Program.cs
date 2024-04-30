@@ -31,6 +31,7 @@ Console.WriteLine(
 [C]      Set comparison
 [SWG]    Switch to game time
 [SWR]    Switch to real time
+[.]      Ping the server
 [Insert] Custom command");
 
 bool quit = false;
@@ -305,6 +306,13 @@ while (!quit)
                     await client.SetComparisonAsync(comp);
                 }
 
+                break;
+            }
+
+        case ConsoleKey.OemPeriod:
+            {
+                string response = await client.PingAsync();
+                Console.WriteLine(response);
                 break;
             }
 
