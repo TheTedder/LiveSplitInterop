@@ -13,6 +13,8 @@ Console.WriteLine(
 [I]      Print current split index
 [SG]     Set game time
 [SL]     Set loading times
+[SNC]    Set current split name
+[SNI]    Set split name at index
 [A]      Add loading times
 [GR]     Get current real time
 [GNL]    Get last split name
@@ -82,6 +84,50 @@ while (!quit)
                             Console.Write("Set loading times to (Enter a time or leave blank to reset):");
                             string? line = Console.ReadLine();
                             await client.SetLoadingTimesAsync(string.IsNullOrEmpty(line) ? null : TimeSpan.Parse(line));
+                            break;
+                        }
+
+                    case ConsoleKey.N:
+                        {
+                            switch (Console.ReadKey(true).Key)
+                            {
+                                case ConsoleKey.C:
+                                    {
+                                        Console.Write("Split name: ");
+                                        string? name = Console.ReadLine();
+
+                                        if (name is not null)
+                                        {
+                                            await client.SetCurrentSplitNameAsync(name);
+                                        }
+
+                                        break;
+                                    }
+
+                                case ConsoleKey.I:
+                                    {
+                                        Console.Write("Index: ");
+                                        string? index = Console.ReadLine();
+
+                                        if (index is null)
+                                        {
+                                            break;
+                                        }
+
+                                        int i = int.Parse(index);
+                                        Console.Write("Split name: ");
+                                        string? name = Console.ReadLine();
+
+                                        if (name is null)
+                                        {
+                                            break;
+                                        }
+
+                                        await client.SetSplitNameAsync(i, name);
+
+                                        break;
+                                    }
+                            }
                             break;
                         }
 
