@@ -33,7 +33,7 @@ namespace LiveSplitInterop.Commands
         /// Ping the server asynchronously.
         /// </summary>
         /// <returns>"pong"</returns>
-        public static async Task<string> Ping(this IAsyncLiveSplitCommandClient client)
+        public static async Task<string> PingAsync(this IAsyncLiveSplitCommandClient client)
         {
             return await client.SendCommandAsync(new Ping());
         }
