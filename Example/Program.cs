@@ -43,24 +43,21 @@ while (!quit)
     {
         case ConsoleKey.Q:
             {
-            quit = true;
-
-            break;
+                quit = true;
+                break;
             }
 
         case ConsoleKey.Enter:
             {
-
-            await client.StartOrSplitAsync();
-            break;
+                await client.StartOrSplitAsync();
+                break;
             }
 
         case ConsoleKey.I:
             {
-
-            int index = await client.GetSplitIndexAsync();
-            Console.WriteLine(index);
-            break;
+                int index = await client.GetSplitIndexAsync();
+                Console.WriteLine(index);
+                break;
             }
 
         case ConsoleKey.S:
