@@ -13,14 +13,17 @@ namespace LiveSplitInterop.Commands
     /// </remarks>
     public sealed class AddLoadingTimes : Command
     {
-        private readonly TimeSpan? loadingTimes;
+        /// <summary>
+        /// The amount of time to add to loading times.
+        /// </summary>
+        public TimeSpan? LoadingTimes { get; private set; }
 
         public AddLoadingTimes(TimeSpan? lt)
         {
-            loadingTimes = lt;
+            LoadingTimes = lt;
         }
 
-        public override string Message => $"addloadingtimes {loadingTimes?.ToLsString() ?? "-"}";
+        public override string Message => $"addloadingtimes {LoadingTimes?.ToLsString() ?? "-"}";
     }
 
     public static class AddLoadingTimesExtensions

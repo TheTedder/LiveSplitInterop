@@ -10,8 +10,11 @@ namespace LiveSplitInterop.Commands
     /// </summary>
     public sealed class GetPredictedTime : Command<TimeSpan?>
     {
-        private readonly string comparison;
-        public override string Message => $"getpredictedtime{comparison?.Insert(0, " ")}";
+        /// <summary>
+        /// The comparison to get the predicted time for.
+        /// </summary>
+        public string Comparison { get; private set; }
+        public override string Message => $"getpredictedtime{Comparison?.Insert(0, " ")}";
 
         /// <summary>
         /// Construct a new <see cref="GetPredictedTime"/>. Defaults to null for the current comparison.
@@ -22,7 +25,7 @@ namespace LiveSplitInterop.Commands
         /// </param>
         public GetPredictedTime(string comp = null)
         {
-            comparison = comp;
+            Comparison = comp;
         }
 
         public override TimeSpan? ParseResponse(string response) => Util.ParseLsTimeSpanNullable(response);

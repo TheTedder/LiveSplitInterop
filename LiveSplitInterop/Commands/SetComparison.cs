@@ -10,8 +10,11 @@ namespace LiveSplitInterop.Commands
     /// </summary>
     public sealed class SetComparison : Command
     {
-        private readonly string comparison;
-        public override string Message => $"setcomparison {comparison}";
+        /// <summary>
+        /// The name of the comparison to switch to.
+        /// </summary>
+        public string Comparison { get; private set; }
+        public override string Message => $"setcomparison {Comparison}";
 
         public SetComparison(string comp)
         {
@@ -20,7 +23,7 @@ namespace LiveSplitInterop.Commands
                 throw new ArgumentException("Comparison name cannot be empty", nameof(comp));
             }
 
-            comparison = comp;
+            Comparison = comp;
         }
     }
 

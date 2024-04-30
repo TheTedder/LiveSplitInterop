@@ -9,14 +9,14 @@ namespace LiveSplitInterop.Commands
     /// </summary>
     public sealed class SetGameTime : Command
     {
-        private readonly TimeSpan gameTime;
+        public TimeSpan GameTime { get; private set; }
 
         public SetGameTime(TimeSpan gameTime)
         {
-            this.gameTime = gameTime;
+            GameTime = gameTime;
         }
 
-        public override string Message => $"setgametime {gameTime.ToLsString()}";
+        public override string Message => $"setgametime {GameTime.ToLsString()}";
     }
 
     public static class SetGameTimeExtensions
