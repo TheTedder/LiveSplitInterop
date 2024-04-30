@@ -48,7 +48,7 @@ namespace LiveSplitInterop.Commands
         /// <summary>
         /// Set the current split name asynchronously.
         /// </summary>
-        public static async Task SetCurrentSplitName(this IAsyncLiveSplitCommandClient client, string name)
+        public static async Task SetCurrentSplitNameAsync(this IAsyncLiveSplitCommandClient client, string name)
         {
             await client.SendCommandAsync(new SetCurrentSplitName(name));
         }
