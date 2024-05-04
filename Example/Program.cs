@@ -2,8 +2,16 @@
 using LiveSplitInterop.Commands;
 using System.Net;
 
-using NamedPipeCommandClient client = new();
-//using TcpCommandClient client = new("localhost", 16834);
+//using NamedPipeCommandClient client = new();
+Console.Write("Host (leave blank for localhost): ");
+string? host = Console.ReadLine();
+
+if (string.IsNullOrWhiteSpace(host))
+{
+    host = "localhost";
+}
+
+using TcpCommandClient client = new(host, 16834);
 Console.WriteLine("Connecting to LiveSplit...");
 await client.ConnectAsync();
 Console.WriteLine(
