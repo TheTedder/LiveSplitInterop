@@ -22,10 +22,6 @@ namespace LiveSplitInterop.Clients
     public class NamedPipeCommandClient : BaseClient
     {
         protected readonly string ServerName;
-        /// <summary>
-        /// The underlying NamedPipeClientStream.
-        /// </summary>
-        //protected readonly NamedPipeClientStream NamedPipeClient;
 
         /// <summary>
         /// Creates a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
