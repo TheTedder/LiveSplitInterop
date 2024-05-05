@@ -19,7 +19,7 @@ namespace LiveSplitInterop.Clients
             Port = port;
         }
 
-        public bool Connected => Client.Connected;
+        public override bool IsConnected => Client?.Connected ?? false;
 
         public void Connect()
         {

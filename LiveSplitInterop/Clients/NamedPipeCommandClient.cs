@@ -90,6 +90,6 @@ namespace LiveSplitInterop.Clients
         /// <summary>
         /// A value indicating whether a client is connected to LiveSplit.
         /// </summary>
-        public bool IsConnected => !(Stream is null) && ((NamedPipeClientStream)Stream).IsConnected;
+        public override bool IsConnected => ((NamedPipeClientStream)Stream)?.IsConnected ?? false;
     }
 }
