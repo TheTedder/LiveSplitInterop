@@ -16,7 +16,8 @@ namespace LiveSplitInterop.Clients
     /// any prior setup by the user.
     /// </para>
     /// <para>
-    /// This client can be used over LAN but it is not very efficient. It is recommended to use TCP/IP instead.
+    /// This client can be used over LAN but it is not very efficient.
+    /// It is recommended to use a <see cref="TcpCommandClient"/> instead.
     /// </para>
     /// </remarks>
     public class NamedPipeCommandClient : BaseClient
