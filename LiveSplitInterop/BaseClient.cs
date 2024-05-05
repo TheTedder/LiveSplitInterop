@@ -11,6 +11,7 @@ namespace LiveSplitInterop
         protected StreamReader Reader { get; set; }
         protected StreamWriter Writer { get; set; }
         protected Stream Stream;
+        public abstract bool IsConnected { get; }
 
         /// <summary>
         /// Sets up or reinitializes the <see cref="Reader"/> and <see cref="Writer"/>

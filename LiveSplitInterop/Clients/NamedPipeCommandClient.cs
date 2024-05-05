@@ -16,16 +16,13 @@ namespace LiveSplitInterop.Clients
     /// any prior setup by the user.
     /// </para>
     /// <para>
-    /// This client can be used over LAN but it is not very efficient. It is recommended to use TCP/IP instead.
+    /// This client can be used over LAN but it is not very efficient.
+    /// It is recommended to use a <see cref="TcpCommandClient"/> instead.
     /// </para>
     /// </remarks>
     public class NamedPipeCommandClient : BaseClient
     {
         protected readonly string ServerName;
-        /// <summary>
-        /// The underlying NamedPipeClientStream.
-        /// </summary>
-        //protected readonly NamedPipeClientStream NamedPipeClient;
 
         /// <summary>
         /// Creates a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
@@ -90,6 +87,6 @@ namespace LiveSplitInterop.Clients
         /// <summary>
         /// A value indicating whether a client is connected to LiveSplit.
         /// </summary>
-        public bool IsConnected => !(Stream is null) && ((NamedPipeClientStream)Stream).IsConnected;
+        public override bool IsConnected => ((NamedPipeClientStream)Stream)?.IsConnected ?? false;
     }
 }
