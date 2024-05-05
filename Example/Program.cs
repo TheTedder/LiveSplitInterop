@@ -39,6 +39,7 @@ Console.WriteLine(
 [C]      Set comparison
 [SWG]    Switch to game time
 [SWR]    Switch to real time
+[R]      Reset
 [.]      Ping the server
 [Insert] Custom command");
 
@@ -311,6 +312,12 @@ while (!quit)
                     await client.SetComparisonAsync(comp);
                 }
 
+                break;
+            }
+
+        case ConsoleKey.R:
+            {
+                await client.ResetAsync();
                 break;
             }
 
