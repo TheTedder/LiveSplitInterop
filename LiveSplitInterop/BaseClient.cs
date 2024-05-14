@@ -68,21 +68,5 @@ namespace LiveSplitInterop
             string response = await Reader.ReadLineAsync();
             return command.ParseResponse(response);
         }
-
-#if DEBUG
-        /// <summary>
-        /// Send a raw string.
-        /// </summary>
-        public async Task SendCommandRaw(string str)
-        {
-            await Writer.WriteLineAsync(str);
-            await Writer.FlushAsync();
-        }
-
-        public async Task<string> ConsumeLineAsync()
-        {
-            return await Reader.ReadLineAsync();
-        }
-#endif
     }
 }

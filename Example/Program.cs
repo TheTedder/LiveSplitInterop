@@ -40,8 +40,7 @@ Console.WriteLine(
 [SWG]    Switch to game time
 [SWR]    Switch to real time
 [R]      Reset
-[.]      Ping the server
-[Insert] Custom command");
+[.]      Ping the server");
 
 bool quit = false;
 while (!quit)
@@ -327,32 +326,5 @@ while (!quit)
                 Console.WriteLine(response);
                 break;
             }
-
-#if DEBUG
-        case ConsoleKey.Insert:
-            {
-                Console.Write('>');
-
-                string? line = Console.ReadLine();
-
-                if (line is not null)
-                {
-                    await client.SendCommandRaw(line);
-
-                    if (true || (key.Modifiers & ConsoleModifiers.Shift) != 0)
-                    {
-                        string? res = await client.ConsumeLineAsync();
-                    
-                        if (res is not null)
-                        {
-                            //Console.WriteLine("{0:x}", (short)res[0]);
-                            Console.WriteLine(res);
-                        }
-                    }
-                }
-
-                break;
-            }
-#endif
     }
 }
