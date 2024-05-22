@@ -36,8 +36,6 @@ namespace LiveSplitInterop
         /// <inheritdoc/>
         public virtual void Dispose()
         {
-            Reader?.Dispose();
-            Writer?.Dispose();
             Stream?.Dispose();
         }
 
