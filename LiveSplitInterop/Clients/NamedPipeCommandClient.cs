@@ -61,7 +61,7 @@ namespace LiveSplitInterop.Clients
         /// </summary>
         public void Connect(int timeout = Timeout.Infinite)
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             client.Connect(timeout);
             SetupPipeStream(client);
         }
@@ -71,7 +71,7 @@ namespace LiveSplitInterop.Clients
         /// </summary>
         public async Task ConnectAsync(int timeout = Timeout.Infinite)
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout);
             SetupPipeStream(client);
         }
@@ -82,7 +82,7 @@ namespace LiveSplitInterop.Clients
             int timeout = Timeout.Infinite
             )
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout, cancellationToken);
             SetupPipeStream(client);
         }
