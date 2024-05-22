@@ -18,13 +18,14 @@ namespace LiveSplitInterop
         /// for use with <paramref name="stream"/>. This method should be called before
         /// attempting to send any commands.
         /// </summary>
-        protected virtual void Setup(Stream stream, int bufferSize = 1024)
+        /// <remarks>
+        /// This method should be called before attempting to send any commands.
+        /// Do not call this method with the same stream twice on the same client.
+        /// </remarks>
+        protected virtual void Setup(Stream stream)
         {
-            Reader?.Close();
-            Writer?.Close();
-            Stream?.Dispose();
-            Reader = new StreamReader(stream, Encoding.UTF8, false, bufferSize, true);
-            Writer = new StreamWriter(stream, new UTF8Encoding(false), bufferSize, true)
+            Reader = new StreamReader(stream, Encoding.UTF8, false);
+            Writer = new StreamWriter(stream, new UTF8Encoding(false))
             {
                 NewLine = "\n"
             };
