@@ -7,15 +7,21 @@ using System.Threading.Tasks;
 namespace LiveSplitInterop
 {
     /// <summary>
-    /// Abstract base class for clients implementing <see cref="ILiveSplitCommandClient"/> and <see cref="IAsyncLiveSplitCommandClient"/>.
+    /// Abstract base class for clients implementing <see cref="ILiveSplitCommandClient"/>
+    /// and <see cref="IAsyncLiveSplitCommandClient"/>.
     /// </summary>
-    public abstract class BaseClient : IDisposable, ILiveSplitCommandClient, IAsyncLiveSplitCommandClient
+    /// <typeparam name="S">
+    /// The specific subclass of <see cref="Stream"/> used by the client.
+    /// </typeparam>
+    public abstract class BaseClient<S>
+        : IDisposable, ILiveSplitCommandClient, IAsyncLiveSplitCommandClient
+        where S : Stream
     {
         /// <summary>
         /// The <see cref="StreamReader"/> used to read data from LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(Stream)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
         /// </remarks>
         protected StreamReader Reader { get; set; }
 
@@ -23,7 +29,7 @@ namespace LiveSplitInterop
         /// The <see cref="StreamWriter"/> used to send data to LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(Stream)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
         /// </remarks>
         protected StreamWriter Writer { get; set; }
 
@@ -31,9 +37,9 @@ namespace LiveSplitInterop
         /// The underlying <see cref="Stream"/> representing the flow of data to and from LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(Stream)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
         /// </remarks>
-        protected Stream Stream;
+        protected S Stream;
 
         /// <summary>
         /// A <see cref="bool"/> representing whether the client is connected to LiveSplit.
@@ -41,14 +47,13 @@ namespace LiveSplitInterop
         public abstract bool IsConnected { get; }
 
         /// <summary>
-        /// Sets up or reinitializes the <see cref="Reader"/> and <see cref="Writer"/>
+        /// Sets up the <see cref="Reader"/> and <see cref="Writer"/>
         /// for use with <paramref name="stream"/>.
         /// </summary>
         /// <remarks>
         /// This method should be called before attempting to send any commands.
-        /// Do not call this method with the same stream twice on the same client.
         /// </remarks>
-        protected virtual void Setup(Stream stream)
+        protected virtual void Setup(S stream)
         {
             Reader = new StreamReader(stream, Encoding.UTF8, false);
             Writer = new StreamWriter(stream, new UTF8Encoding(false))

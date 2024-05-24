@@ -20,7 +20,7 @@ namespace LiveSplitInterop.Clients
     /// Use a <see cref="TcpCommandClient"/> instead for networked communication.
     /// </para>
     /// </remarks>
-    public class NamedPipeCommandClient : BaseClient
+    public class NamedPipeCommandClient : BaseClient<NamedPipeClientStream>
     {
         /// <summary>
         /// The hostname of the server to connect to.
@@ -51,18 +51,13 @@ namespace LiveSplitInterop.Clients
             // TODO: Is PipeOptions.WriteThrough necessary? Better to have it on or off? 
             PipeOptions.Asynchronous | PipeOptions.WriteThrough);
 
-        /// <summary>
-        /// Set up the <paramref name="stream"/> for use.
-        /// </summary>
-        /// <remarks>
-        /// Calls <see cref="BaseClient.Setup(Stream)"/>.
-        /// </remarks>
-        protected void SetupPipeStream(NamedPipeClientStream stream)
+        /// <inheritdoc/>
+        protected override void Setup(NamedPipeClientStream stream)
         {
             // It is an error to set this variable before the pipe is connected.
 
             stream.ReadMode = PipeTransmissionMode.Byte;
-            Setup(stream);
+            base.Setup(stream);
         }
 
         /// <summary>
@@ -72,7 +67,7 @@ namespace LiveSplitInterop.Clients
         {
             NamedPipeClientStream client = CreateStream();
             client.Connect(timeout);
-            SetupPipeStream(client);
+            Setup(client);
         }
 
         /// <summary>
@@ -82,7 +77,7 @@ namespace LiveSplitInterop.Clients
         {
             NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout);
-            SetupPipeStream(client);
+            Setup(client);
         }
 
         /// <inheritdoc cref="ConnectAsync(int)"/>
@@ -93,10 +88,10 @@ namespace LiveSplitInterop.Clients
         {
             NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout, cancellationToken);
-            SetupPipeStream(client);
+            Setup(client);
         }
 
         ///<inheritdoc/>
-        public override bool IsConnected => ((NamedPipeClientStream)Stream)?.IsConnected ?? false;
+        public override bool IsConnected => Stream?.IsConnected ?? false;
     }
 }
