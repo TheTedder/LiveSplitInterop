@@ -10,18 +10,18 @@ namespace LiveSplitInterop
     /// Abstract base class for clients implementing <see cref="ILiveSplitCommandClient"/>
     /// and <see cref="IAsyncLiveSplitCommandClient"/>.
     /// </summary>
-    /// <typeparam name="S">
+    /// <typeparam name="TStream">
     /// The specific subclass of <see cref="Stream"/> used by the client.
     /// </typeparam>
-    public abstract class BaseClient<S>
+    public abstract class BaseClient<TStream>
         : IDisposable, ILiveSplitCommandClient, IAsyncLiveSplitCommandClient
-        where S : Stream
+        where TStream : Stream
     {
         /// <summary>
         /// The <see cref="StreamReader"/> used to read data from LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(TStream)"/> has been called once before use.
         /// </remarks>
         protected StreamReader Reader { get; set; }
 
@@ -29,7 +29,7 @@ namespace LiveSplitInterop
         /// The <see cref="StreamWriter"/> used to send data to LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(TStream)"/> has been called once before use.
         /// </remarks>
         protected StreamWriter Writer { get; set; }
 
@@ -37,9 +37,9 @@ namespace LiveSplitInterop
         /// The underlying <see cref="Stream"/> representing the flow of data to and from LiveSplit.
         /// </summary>
         /// <remarks>
-        /// Ensure that <see cref="Setup(S)"/> has been called once before use.
+        /// Ensure that <see cref="Setup(TStream)"/> has been called once before use.
         /// </remarks>
-        protected S Stream;
+        protected TStream Stream;
 
         /// <summary>
         /// A <see cref="bool"/> representing whether the client is connected to LiveSplit.
@@ -53,7 +53,7 @@ namespace LiveSplitInterop
         /// <remarks>
         /// This method should be called before attempting to send any commands.
         /// </remarks>
-        protected virtual void Setup(S stream)
+        protected virtual void Setup(TStream stream)
         {
             Reader = new StreamReader(stream, Encoding.UTF8, false);
             Writer = new StreamWriter(stream, new UTF8Encoding(false))

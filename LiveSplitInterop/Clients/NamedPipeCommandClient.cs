@@ -12,12 +12,17 @@ namespace LiveSplitInterop.Clients
     /// </summary>
     /// <remarks>
     /// <para>
+    /// Use <see cref="Connect(int)"/>, <see cref="ConnectAsync(int)"/>, or
+    /// <see cref="ConnectAsync(CancellationToken, int)"/> to initiate a connection before sending any
+    /// commands.
+    /// </para>
+    /// <para>
     /// The LiveSplit named pipe is always open, so this client can be used to control LiveSplit without
     /// any prior setup by the user.
     /// </para>
     /// <para>
-    /// This client can be used over LAN but it is not very efficient.
-    /// Use a <see cref="TcpCommandClient"/> instead for networked communication.
+    /// This client can be used over LAN but it is not very efficient. Use a <see cref="TcpCommandClient"/>
+    /// instead for networked communication.
     /// </para>
     /// </remarks>
     public class NamedPipeCommandClient : BaseClient<NamedPipeClientStream>
@@ -29,12 +34,12 @@ namespace LiveSplitInterop.Clients
 
         /// <summary>
         /// Create a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
-        /// on the specified server. Use the Connect or the ConnectAsync method to initiate a connection
-        /// before sending any commands.
+        /// on the specified server.
         /// </summary>
+        /// 
         /// <param name="serverName">
-        /// The address of the server to connect to. It defaults to "." for connections
-        /// on the local machine. This must be a computer name and not an IP address.
+        /// The address of the server to connect to. It defaults to "." for connections on the local machine.
+        /// This must be a computer name and not an IP address.
         /// </param>
         public NamedPipeCommandClient(string serverName = ".")
         {
