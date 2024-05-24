@@ -12,7 +12,7 @@ namespace LiveSplitInterop.Clients
     /// <remarks>
     /// The user must start the TCP server via the Control menu before this client can connect.
     /// </remarks>
-    public class TcpCommandClient : BaseClient
+    public class TcpCommandClient : BaseClient<NetworkStream>
     {
         /// <summary>
         /// The internal <see cref="TcpClient"/> that connects to the LiveSplit server.
