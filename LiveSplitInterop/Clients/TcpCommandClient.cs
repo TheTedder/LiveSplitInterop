@@ -9,9 +9,9 @@ namespace LiveSplitInterop.Clients
     public class TcpCommandClient : BaseClient
     {
         protected readonly TcpClient Client;
-        protected readonly string Host;
-        protected readonly int Port;
 
+        public readonly string Host;
+        public readonly int Port;
         public TcpCommandClient(string host, int port)
         {
             Client = new TcpClient();
