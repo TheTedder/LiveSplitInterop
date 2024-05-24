@@ -51,12 +51,7 @@ namespace LiveSplitInterop.Clients
             // TODO: Is PipeOptions.WriteThrough necessary? Better to have it on or off? 
             PipeOptions.Asynchronous | PipeOptions.WriteThrough);
 
-        /// <summary>
-        /// Set up the <paramref name="stream"/> for use.
-        /// </summary>
-        /// <remarks>
-        /// Calls <see cref="BaseClient.Setup(Stream)"/>.
-        /// </remarks>
+        /// <inheritdoc/>
         protected override void Setup(NamedPipeClientStream stream)
         {
             // It is an error to set this variable before the pipe is connected.
