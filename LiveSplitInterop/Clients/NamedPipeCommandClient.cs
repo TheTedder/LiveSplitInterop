@@ -17,15 +17,18 @@ namespace LiveSplitInterop.Clients
     /// </para>
     /// <para>
     /// This client can be used over LAN but it is not very efficient.
-    /// It is recommended to use a <see cref="TcpCommandClient"/> instead.
+    /// Use a <see cref="TcpCommandClient"/> instead for networked communication.
     /// </para>
     /// </remarks>
     public class NamedPipeCommandClient : BaseClient
     {
-        protected readonly string ServerName;
+        /// <summary>
+        /// The hostname of the server to connect to.
+        /// </summary>
+        public readonly string ServerName;
 
         /// <summary>
-        /// Creates a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
+        /// Create a new <see cref="NamedPipeCommandClient"/> for communicating with the instance of LiveSplit
         /// on the specified server. Use the Connect or the ConnectAsync method to initiate a connection
         /// before sending any commands.
         /// </summary>
@@ -38,6 +41,9 @@ namespace LiveSplitInterop.Clients
             ServerName = serverName;
         }
 
+        /// <summary>
+        /// Create the <see cref="NamedPipeClientStream"/> for sending and receiving data from LiveSplit.
+        /// </summary>
         protected NamedPipeClientStream CreateStream() => new NamedPipeClientStream(
             ServerName,
             "LiveSplit",
@@ -45,6 +51,12 @@ namespace LiveSplitInterop.Clients
             // TODO: Is PipeOptions.WriteThrough necessary? Better to have it on or off? 
             PipeOptions.Asynchronous | PipeOptions.WriteThrough);
 
+        /// <summary>
+        /// Set up the <paramref name="stream"/> for use.
+        /// </summary>
+        /// <remarks>
+        /// Calls <see cref="BaseClient.Setup(Stream)"/>.
+        /// </remarks>
         protected void SetupPipeStream(NamedPipeClientStream stream)
         {
             // It is an error to set this variable before the pipe is connected.
@@ -54,21 +66,21 @@ namespace LiveSplitInterop.Clients
         }
 
         /// <summary>
-        /// Connect to LiveSplit.
+        /// Connect to LiveSplit with a specified timeout in milliseconds.
         /// </summary>
         public void Connect(int timeout = Timeout.Infinite)
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             client.Connect(timeout);
             SetupPipeStream(client);
         }
 
         /// <summary>
-        /// Connect to LiveSplit Asynchronously.
+        /// Connect to LiveSplit asynchronously with a specified timeout in milliseconds.
         /// </summary>
         public async Task ConnectAsync(int timeout = Timeout.Infinite)
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout);
             SetupPipeStream(client);
         }
@@ -79,14 +91,12 @@ namespace LiveSplitInterop.Clients
             int timeout = Timeout.Infinite
             )
         {
-            var client = CreateStream();
+            NamedPipeClientStream client = CreateStream();
             await client.ConnectAsync(timeout, cancellationToken);
             SetupPipeStream(client);
         }
 
-        /// <summary>
-        /// A value indicating whether a client is connected to LiveSplit.
-        /// </summary>
+        ///<inheritdoc/>
         public override bool IsConnected => ((NamedPipeClientStream)Stream)?.IsConnected ?? false;
     }
 }
