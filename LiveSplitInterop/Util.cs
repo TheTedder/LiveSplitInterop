@@ -28,6 +28,9 @@ namespace LiveSplitInterop
             return ParseLsTimeSpan(s);
         }
 
+        /// <summary>
+        /// Returns a string representation of the <see cref="TimeSpan"/> that LiveSplit can parse.
+        /// </summary>
         public static string ToLsString(this TimeSpan timeSpan) => timeSpan.ToString("c", CultureInfo.InvariantCulture);
     }
 }
