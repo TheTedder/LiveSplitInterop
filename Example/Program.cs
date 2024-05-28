@@ -234,7 +234,7 @@ while (true)
                                                 }
 
                                                 TimeSpan? time = await client.GetCurrentSplitTimeAsync(comp);
-                                                Console.WriteLine("Previous split time: {0}", time?.ToString("c") ?? "-");
+                                                Console.WriteLine("Current split time: {0}", time?.ToString("c") ?? "-");
                                                 break;
                                             }
                                     }
