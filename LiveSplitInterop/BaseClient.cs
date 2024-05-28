@@ -65,10 +65,7 @@ namespace LiveSplitInterop
         }
 
         /// <inheritdoc/>
-        public virtual void Dispose()
-        {
-            Stream?.Dispose();
-        }
+        public virtual void Dispose() => Stream?.Dispose();
 
         /// <inheritdoc/>
         public void SendCommand(Command command)
