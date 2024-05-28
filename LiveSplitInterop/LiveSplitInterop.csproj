@@ -4,9 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>LiveSplit Interop</Title>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <PackageId>livesplit-interop</PackageId>
+    <PackageId>LiveSplitInterop</PackageId>
     <Authors>tedwollman</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Description>A library for controlling LiveSplit</Description>
+    <Copyright>Copyright 2024 Ted Wollman </Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/TheTedder/LiveSplitInterop</RepositoryUrl>
+    <PackageTags>Library;RPC;LiveSplit;Network;.NET;Client;NamedPipe;TCP</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
