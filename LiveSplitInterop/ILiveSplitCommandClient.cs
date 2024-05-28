@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using System.Threading;
+using System.IO;
 
 namespace LiveSplitInterop
 {
@@ -12,6 +12,7 @@ namespace LiveSplitInterop
         /// <summary>
         /// Send a command to LiveSplit.
         /// </summary>
+        /// <exception cref="IOException"></exception>
         void SendCommand(Command command);
 
         /// <inheritdoc cref="SendCommand(Command)"/>
@@ -21,6 +22,7 @@ namespace LiveSplitInterop
         /// <returns>
         /// The data object returned by LiveSplit.
         /// </returns>
+        /// <exception cref="IOException"></exception>
         T SendCommand<T>(Command<T> command);
     }
 }

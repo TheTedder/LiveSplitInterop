@@ -20,7 +20,7 @@ namespace LiveSplitInterop.Commands
         /// Construct a new <see cref="GetPredictedTime"/>. Defaults to null for the current comparison.
         /// </summary>
         /// <param name="comp">
-        /// The name of the comparison to get the split time of.
+        /// The name of the comparison to get the predicted time of.
         /// Specifying null uses the current comparison.
         /// </param>
         public GetPredictedTime(string comp = null)
