@@ -71,7 +71,7 @@ Extension methods are provided for convenience.
 ```csharp
 client.StartOrSplit();
 
-async client.StartOrSplitAsync();
+await client.StartOrSplitAsync();
 ```
 
 Attempting to send a command before the client has connected to LiveSplit will result in an error. Use the `IsConnected` property to check on the status of the connection to LiveSplit.
